@@ -1,6 +1,8 @@
 FROM node:24.0.1-alpine
 
 WORKDIR /frontend
+RUN npm install -g vite
+RUN npm install --save-dev vite
 
 COPY package*.json ./
 COPY .env ./

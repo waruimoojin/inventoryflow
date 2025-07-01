@@ -1,26 +1,28 @@
-version: '3.8'
 
+
+
+ 
 services:
+  frontend:
+    image: ghcr.io/waruimoojin/frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:51730"
+    networks:
+      - inventoryflow_network
+
   backend:
-    image: yassinenakkabi/inventory_backend:latest
+    image: ghcr.io/waruimoojin/backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "5001:5001"
-    env_file:
-      - ./backend/.env
-    restart: unless-stopped
+    networks:
+      - inventoryflow_network
 
-  frontend:
-    image: yassinenakkabi/inventory_frontend:latest
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "5173:5173"
-    env_file:
-      - ./frontend/.env
-    depends_on:
-      - backend
-    restart: unless-stopped
+networks:
+  inventoryflow_network:
+    driver: bridge
